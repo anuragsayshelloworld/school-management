@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Login from './components/Login';
 import StudentDashboard from './pages/studentDashboard';
 import TeacherDashboard from './pages/teacherDashboard';
 import AdminDashboard from './pages/adminDashboard';
 
 export default function App(){
-
-	const [user, setUser] = useState(null);
+       
+       const savedUser = localStorage.getItem("userDetails") || sessionStorage.getItem("userDetails");    
+	 
+       const [user, setUser] = useState(savedUser ? JSON.parse(savedUser) : null);
 
     if(!user){
     	return(
