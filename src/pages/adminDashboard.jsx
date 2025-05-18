@@ -4,8 +4,17 @@ export default function AdminDashboard({ setUser, user }) {
   const [teacherName, setTeacherName] = useState("");
   const [teacherUsername, setTeacherUsername] = useState("");
   const [subject, selectSubject] = useState('');
+  // Expanded classes from A-B to A-J
   const [classa, selectClassA] = useState(false);
   const [classb, selectClassB] = useState(false);
+  const [classc, selectClassC] = useState(false);
+  const [classd, selectClassD] = useState(false);
+  const [classe, selectClassE] = useState(false);
+  const [classf, selectClassF] = useState(false);
+  const [classg, selectClassG] = useState(false);
+  const [classh, selectClassH] = useState(false);
+  const [classi, selectClassI] = useState(false);
+  const [classj, selectClassJ] = useState(false);
   const [teacherPassword, setTeacherPassword] = useState('');
   const [salary, setSalary] = useState('');
   const [teacherData, setTeacherData] = useState(null);
@@ -21,7 +30,7 @@ export default function AdminDashboard({ setUser, user }) {
   const [search2, setSearch2] = useState('');
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('teacher');
-  const [anothererror,setanothererror] = useState('');
+  const [anothererror, setanothererror] = useState('');
 
 
   const checkusername = (xxx) => {
@@ -41,19 +50,19 @@ export default function AdminDashboard({ setUser, user }) {
 
 
   const checkUsernameUlt = (xxx, indexxx) => {
-  const dataFromLsTeacher = JSON.parse(localStorage.getItem("teacher")) || [];
-  const dataFromLsStudent = JSON.parse(localStorage.getItem("student")) || [];
+    const dataFromLsTeacher = JSON.parse(localStorage.getItem("teacher")) || [];
+    const dataFromLsStudent = JSON.parse(localStorage.getItem("student")) || [];
 
-  const teacherHasUsername = dataFromLsTeacher.some((teacher, idx) =>
-    idx !== indexxx && teacher.teacherUsername === xxx
-  );
+    const teacherHasUsername = dataFromLsTeacher.some((teacher, idx) =>
+      idx !== indexxx && teacher.teacherUsername === xxx
+    );
 
-  const studentHasUsername = dataFromLsStudent.some(
-    (student) => student.studentUsername === xxx
-  );
+    const studentHasUsername = dataFromLsStudent.some(
+      (student) => student.studentUsername === xxx
+    );
 
-  return teacherHasUsername || studentHasUsername;
-};
+    return teacherHasUsername || studentHasUsername;
+  };
 
 
   const handleLogout = () => {
@@ -79,8 +88,17 @@ export default function AdminDashboard({ setUser, user }) {
     setTeacherPassword(selectedTeacher.teacherPassword);
     selectSubject(selectedTeacher.subject);
     setSalary(selectedTeacher.salary);
+    // Updated to include all 10 classes
     selectClassA(selectedTeacher.classa);
     selectClassB(selectedTeacher.classb);
+    selectClassC(selectedTeacher.classc);
+    selectClassD(selectedTeacher.classd);
+    selectClassE(selectedTeacher.classe);
+    selectClassF(selectedTeacher.classf);
+    selectClassG(selectedTeacher.classg);
+    selectClassH(selectedTeacher.classh);
+    selectClassI(selectedTeacher.classi);
+    selectClassJ(selectedTeacher.classj);
     setEditIndex(indexx);
   };
 
@@ -91,8 +109,17 @@ export default function AdminDashboard({ setUser, user }) {
       teacherUsername,
       teacherPassword,
       subject,
+      // Updated to include all 10 classes
       classa,
       classb,
+      classc,
+      classd,
+      classe,
+      classf,
+      classg,
+      classh,
+      classi,
+      classj,
       salary
     };
     if (!checkusername(teacherUsername)) {
@@ -105,45 +132,71 @@ export default function AdminDashboard({ setUser, user }) {
       setTeacherPassword('');
       selectSubject('');
       setSalary('');
+      // Reset all 10 class checkboxes
       selectClassA(false);
       selectClassB(false);
+      selectClassC(false);
+      selectClassD(false);
+      selectClassE(false);
+      selectClassF(false);
+      selectClassG(false);
+      selectClassH(false);
+      selectClassI(false);
+      selectClassJ(false);
     } else {
       setError("Username already exists");
     }
   };
 
   const updateTeacher = (e) => {
-  e.preventDefault();
-  const updatedTeacher = {
-    teacherName,
-    teacherUsername,
-    teacherPassword,
-    subject,
-    classa,
-    classb,
-    salary
+    e.preventDefault();
+    const updatedTeacher = {
+      teacherName,
+      teacherUsername,
+      teacherPassword,
+      subject,
+      // Updated to include all 10 classes
+      classa,
+      classb,
+      classc,
+      classd,
+      classe,
+      classf,
+      classg,
+      classh,
+      classi,
+      classj,
+      salary
+    };
+
+    const check = checkUsernameUlt(teacherUsername, editIndex);
+
+    if (!check) {
+      const temp = JSON.parse(localStorage.getItem("teacher")) || [];
+      temp[editIndex] = updatedTeacher;
+      localStorage.setItem("teacher", JSON.stringify(temp));
+      setTeacherData(temp);
+      setTeacherName('');
+      setTeacherUsername('');
+      setTeacherPassword('');
+      selectSubject('');
+      setSalary('');
+      // Reset all 10 class checkboxes
+      selectClassA(false);
+      selectClassB(false);
+      selectClassC(false);
+      selectClassD(false);
+      selectClassE(false);
+      selectClassF(false);
+      selectClassG(false);
+      selectClassH(false);
+      selectClassI(false);
+      selectClassJ(false);
+      setEditIndex(null);
+    } else {
+      setError("Username already exists");
+    }
   };
-
-  const check = checkUsernameUlt(studentUsername, editIndex);
-
-  if (!check) {
-    const temp = JSON.parse(localStorage.getItem("teacher")) || [];
-    temp[editIndex] = updatedTeacher;
-    localStorage.setItem("teacher", JSON.stringify(temp));
-    setTeacherData(temp);
-    setTeacherName('');
-    setTeacherUsername('');
-    setTeacherPassword('');
-    selectSubject('');
-    setSalary('');
-    selectClassA(false);
-    selectClassB(false);
-    setEditIndex(null);
-    
-  } else {
-    setError("Username already exists");
-  }
-};
 
   const handleDeleteS = (indexx) => {
     const temp = JSON.parse(localStorage.getItem("student")) || [];
@@ -171,21 +224,19 @@ export default function AdminDashboard({ setUser, user }) {
       studentClassroom
     };
     if (!checkusername(studentUsername)) {
-    const temp = JSON.parse(localStorage.getItem("student")) || [];
-    temp.push(newStudent);
-    localStorage.setItem("student", JSON.stringify(temp));
-    setStudentData(temp);
-    setStudentName('');
-    setStudentUsername('');
-    setStudentPassword('');
-    setStudentClassroom('');
-  }
-  else{
-  setanothererror("Username already exists!");
-  }
+      const temp = JSON.parse(localStorage.getItem("student")) || [];
+      temp.push(newStudent);
+      localStorage.setItem("student", JSON.stringify(temp));
+      setStudentData(temp);
+      setStudentName('');
+      setStudentUsername('');
+      setStudentPassword('');
+      setStudentClassroom('');
+    }
+    else {
+      setanothererror("Username already exists!");
+    }
   };
-
-
 
   const updateStudent = (e) => {
     e.preventDefault();
@@ -195,21 +246,21 @@ export default function AdminDashboard({ setUser, user }) {
       studentPassword,
       studentClassroom
     };
-    const check = checkUsernameUlt(teacherUsername, editIndex);
+    const check = checkUsernameUlt(studentUsername, editIndexS);
     if (!check) {
-    const temp = JSON.parse(localStorage.getItem("student")) || [];
-    temp[editIndexS] = updatedStudent;
-    localStorage.setItem("student", JSON.stringify(temp));
-    setStudentData(temp);
-    setStudentName('');
-    setStudentUsername('');
-    setStudentPassword('');
-    setStudentClassroom('');
-    setEditIndexS(null);
-  }
-  else{
-    setanothererror("username already exists");
-  }
+      const temp = JSON.parse(localStorage.getItem("student")) || [];
+      temp[editIndexS] = updatedStudent;
+      localStorage.setItem("student", JSON.stringify(temp));
+      setStudentData(temp);
+      setStudentName('');
+      setStudentUsername('');
+      setStudentPassword('');
+      setStudentClassroom('');
+      setEditIndexS(null);
+    }
+    else {
+      setanothererror("username already exists");
+    }
   };
 
   const filteredStudentData = (studentData || []).filter((student) => {
@@ -236,19 +287,19 @@ export default function AdminDashboard({ setUser, user }) {
     setStudentData(temp2);
   }, []);
 
-useEffect(() => {
-  if (error) {
-    const timer = setTimeout(() => setError(''), 3000);
-    return () => clearTimeout(timer);
-  }
-}, [error]);
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(''), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
-useEffect(() => {
-  if (anothererror) {
-    const timer = setTimeout(() => setanothererror(''), 3000);
-    return () => clearTimeout(timer);
-  }
-}, [anothererror]);
+  useEffect(() => {
+    if (anothererror) {
+      const timer = setTimeout(() => setanothererror(''), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [anothererror]);
 
 
   return (
@@ -266,7 +317,7 @@ useEffect(() => {
       {activeTab === 'teacher' && (
         <div className="row">
           <div className="col-md-4">
-          <p style={{color:'red'}}><i>{error}</i></p>
+            <p style={{ color: 'red' }}><i>{error}</i></p>
             <form onSubmit={editIndex === null ? addTeacher : updateTeacher}>
               <input className="form-control mb-2" placeholder="Name" value={teacherName} onChange={(e) => setTeacherName(e.target.value)} required />
               <input className="form-control mb-2" placeholder="Username" value={teacherUsername} onChange={(e) => setTeacherUsername(e.target.value)} required />
@@ -276,14 +327,63 @@ useEffect(() => {
                 <option value="">Select Subject</option>
                 <option value="science">Science</option>
                 <option value="math">Mathematics</option>
+                <option value="english">English</option>
+                <option value="history">History</option>
+                <option value="geography">Geography</option>
+                <option value="physics">Physics</option>
+                <option value="chemistry">Chemistry</option>
+                <option value="biology">Biology</option>
+                <option value="computerscience">Computer Science</option>
+                <option value="arts">Arts</option>
               </select>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" checked={classa} onChange={(e) => selectClassA(e.target.checked)} />
-                <label className="form-check-label">Class A</label>
-              </div>
-              <div className="form-check mb-2">
-                <input className="form-check-input" type="checkbox" checked={classb} onChange={(e) => selectClassB(e.target.checked)} />
-                <label className="form-check-label">Class B</label>
+              <div className="mb-3">
+                <h6>Select Classes</h6>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" checked={classa} onChange={(e) => selectClassA(e.target.checked)} />
+                      <label className="form-check-label">Class A</label>
+                    </div>
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" checked={classb} onChange={(e) => selectClassB(e.target.checked)} />
+                      <label className="form-check-label">Class B</label>
+                    </div>
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" checked={classc} onChange={(e) => selectClassC(e.target.checked)} />
+                      <label className="form-check-label">Class C</label>
+                    </div>
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" checked={classd} onChange={(e) => selectClassD(e.target.checked)} />
+                      <label className="form-check-label">Class D</label>
+                    </div>
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" checked={classe} onChange={(e) => selectClassE(e.target.checked)} />
+                      <label className="form-check-label">Class E</label>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" checked={classf} onChange={(e) => selectClassF(e.target.checked)} />
+                      <label className="form-check-label">Class F</label>
+                    </div>
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" checked={classg} onChange={(e) => selectClassG(e.target.checked)} />
+                      <label className="form-check-label">Class G</label>
+                    </div>
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" checked={classh} onChange={(e) => selectClassH(e.target.checked)} />
+                      <label className="form-check-label">Class H</label>
+                    </div>
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" checked={classi} onChange={(e) => selectClassI(e.target.checked)} />
+                      <label className="form-check-label">Class I</label>
+                    </div>
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" checked={classj} onChange={(e) => selectClassJ(e.target.checked)} />
+                      <label className="form-check-label">Class J</label>
+                    </div>
+                  </div>
+                </div>
               </div>
               <button type="submit" className="btn btn-primary w-100 mb-2">{editIndex === null ? 'Add Teacher' : 'Update Teacher'}</button>
             </form>
@@ -298,6 +398,7 @@ useEffect(() => {
                     <th>Name</th>
                     <th>Username</th>
                     <th>Subject</th>
+                    <th>Classes</th>
                     <th>Salary</th>
                     <th colSpan="2">Actions</th>
                   </tr>
@@ -308,6 +409,20 @@ useEffect(() => {
                       <td>{teacher.teacherName}</td>
                       <td>{teacher.teacherUsername}</td>
                       <td>{teacher.subject}</td>
+                      <td>
+                        {[
+                          teacher.classa && 'A',
+                          teacher.classb && 'B',
+                          teacher.classc && 'C',
+                          teacher.classd && 'D',
+                          teacher.classe && 'E',
+                          teacher.classf && 'F',
+                          teacher.classg && 'G',
+                          teacher.classh && 'H',
+                          teacher.classi && 'I',
+                          teacher.classj && 'J'
+                        ].filter(Boolean).join(', ')}
+                      </td>
                       <td>{teacher.salary}</td>
                       <td><button className="btn btn-sm btn-danger" onClick={() => handleDelete(index)}>Delete</button></td>
                       <td><button className="btn btn-sm btn-warning" onClick={() => handleEdit(index)}>Edit</button></td>
@@ -323,7 +438,7 @@ useEffect(() => {
       {activeTab === 'student' && (
         <div className="row">
           <div className="col-md-4">
-            <p style={{color:'red'}}><i>{anothererror}</i></p>
+            <p style={{ color: 'red' }}><i>{anothererror}</i></p>
             <form onSubmit={editIndexS === null ? addStudent : updateStudent}>
               <input className="form-control mb-2" placeholder="Name" value={studentName} onChange={(e) => setStudentName(e.target.value)} required />
               <input className="form-control mb-2" placeholder="Username" value={studentUsername} onChange={(e) => setStudentUsername(e.target.value)} required />
@@ -332,6 +447,14 @@ useEffect(() => {
                 <option value="">Select Classroom</option>
                 <option value="ClassA">Class A</option>
                 <option value="ClassB">Class B</option>
+                <option value="ClassC">Class C</option>
+                <option value="ClassD">Class D</option>
+                <option value="ClassE">Class E</option>
+                <option value="ClassF">Class F</option>
+                <option value="ClassG">Class G</option>
+                <option value="ClassH">Class H</option>
+                <option value="ClassI">Class I</option>
+                <option value="ClassJ">Class J</option>
               </select>
               <button type="submit" className="btn btn-success w-100 mb-2">{editIndexS === null ? 'Add Student' : 'Update Student'}</button>
             </form>
@@ -344,6 +467,14 @@ useEffect(() => {
                 <option value="">All</option>
                 <option value="ClassA">Class A</option>
                 <option value="ClassB">Class B</option>
+                <option value="ClassC">Class C</option>
+                <option value="ClassD">Class D</option>
+                <option value="ClassE">Class E</option>
+                <option value="ClassF">Class F</option>
+                <option value="ClassG">Class G</option>
+                <option value="ClassH">Class H</option>
+                <option value="ClassI">Class I</option>
+                <option value="ClassJ">Class J</option>
               </select>
             </div>
             <div className="table-responsive" style={{ maxHeight: '400px', overflowY: 'auto' }}>
