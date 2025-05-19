@@ -7,7 +7,32 @@ export default function CreateAssignment({postList, setPostList, user}) {
   const [currentTeacher, setCurrentTeacher] = useState(null);
   const [arrayLength, setArrayLength] = useState(0);
   const [availableClasses, setAvailableClasses] = useState([]);
+  const [classY, setClassY] = useState('');
+  const [resultmaker, setResultmaker] = useState([]);
+  const [marks,setMarks] = useState([]);
   
+const handleSave = () => {
+  let resultSheet = {};
+
+  for (let i = 0; i < marks.length; i++) {
+    resultSheet[resultmaker[i].studentName] = marks[i];
+  }
+  localStorage.setItem("result",JSON.stringify(resultSheet));
+    console.log("success");
+    setResultmaker([]);
+    setMarks([]);
+
+};
+
+const makeresult = (e) => {
+  e.preventDefault();
+  let clas = classY.toLowerCase();
+  let newarray = JSON.parse(localStorage.getItem("student")) || [];
+  let abc = newarray.filter((item) => item.studentClassroom.toLowerCase() === clas);
+  setResultmaker(abc); 
+}
+
+
   const handlePost = (event) => {
     event.preventDefault(); 
     const newObject = {
@@ -103,6 +128,45 @@ export default function CreateAssignment({postList, setPostList, user}) {
       <span>
         Teacher: {currentTeacher} | Classes Assigned: {arrayLength}
       </span>
+      
+      <hr/>
+      <form onSubmit={makeresult}>
+      <button type="submit">Create Result sheet</button>
+      <select 
+          value={classY} 
+          onChange={(e) => setClassY(e.target.value)}
+          required
+        >
+          <option value="">Select Class</option>
+          {availableClasses.map((classItem, index) => (
+            <option key={index} value={classItem}>{classItem}</option>
+          ))}
+        </select>
+      </form>
+
+{resultmaker.length > 0 && (
+  <ol>
+    {resultmaker.map((student, index) => (
+      <li key={index}>
+        {student.studentName}
+        <input required max="100" min ="0"
+          type="number"
+          value={marks[index] || ""}
+          onChange={(e) => {
+            const newMarks = [...marks];
+            newMarks[index] = e.target.value;
+            setMarks(newMarks);
+          }}
+        />
+      </li>
+    ))}
+  <button onClick={handleSave}>Save</button>
+  <button onClick={()=>{setResultmaker([])}}> Cancel </button>
+  </ol>
+
+)}
+
+
     </>
   );
 }
