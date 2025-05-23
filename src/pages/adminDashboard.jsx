@@ -4,7 +4,6 @@ export default function AdminDashboard({ setUser, user }) {
   const [teacherName, setTeacherName] = useState("");
   const [teacherUsername, setTeacherUsername] = useState("");
   const [subject, selectSubject] = useState('');
-  // Expanded classes from A-B to A-J
   const [classa, selectClassA] = useState(false);
   const [classb, selectClassB] = useState(false);
   const [classc, selectClassC] = useState(false);
@@ -88,7 +87,6 @@ export default function AdminDashboard({ setUser, user }) {
     setTeacherPassword(selectedTeacher.teacherPassword);
     selectSubject(selectedTeacher.subject);
     setSalary(selectedTeacher.salary);
-    // Updated to include all 10 classes
     selectClassA(selectedTeacher.classa);
     selectClassB(selectedTeacher.classb);
     selectClassC(selectedTeacher.classc);
@@ -104,12 +102,12 @@ export default function AdminDashboard({ setUser, user }) {
 
   const addTeacher = (e) => {
     e.preventDefault();
+    let role = 1;
     const tempObject = {
       teacherName,
       teacherUsername,
       teacherPassword,
       subject,
-      // Updated to include all 10 classes
       classa,
       classb,
       classc,
@@ -120,7 +118,8 @@ export default function AdminDashboard({ setUser, user }) {
       classh,
       classi,
       classj,
-      salary
+      salary,
+      role 
     };
     if (!checkusername(teacherUsername)) {
       const temp = JSON.parse(localStorage.getItem("teacher")) || [];
@@ -150,12 +149,12 @@ export default function AdminDashboard({ setUser, user }) {
 
   const updateTeacher = (e) => {
     e.preventDefault();
+    let role = 1;
     const updatedTeacher = {
       teacherName,
       teacherUsername,
       teacherPassword,
       subject,
-      // Updated to include all 10 classes
       classa,
       classb,
       classc,
@@ -166,7 +165,8 @@ export default function AdminDashboard({ setUser, user }) {
       classh,
       classi,
       classj,
-      salary
+      salary,
+      role
     };
 
     const check = checkUsernameUlt(teacherUsername, editIndex);
@@ -181,7 +181,6 @@ export default function AdminDashboard({ setUser, user }) {
       setTeacherPassword('');
       selectSubject('');
       setSalary('');
-      // Reset all 10 class checkboxes
       selectClassA(false);
       selectClassB(false);
       selectClassC(false);
@@ -217,11 +216,13 @@ export default function AdminDashboard({ setUser, user }) {
 
   const addStudent = (e) => {
     e.preventDefault();
+    let role = 0;
     const newStudent = {
       studentName,
       studentUsername,
       studentPassword,
-      studentClassroom
+      studentClassroom,
+      role
     };
     if (!checkusername(studentUsername)) {
       const temp = JSON.parse(localStorage.getItem("student")) || [];
@@ -240,11 +241,13 @@ export default function AdminDashboard({ setUser, user }) {
 
   const updateStudent = (e) => {
     e.preventDefault();
+    let role = 0;
     const updatedStudent = {
       studentName,
       studentUsername,
       studentPassword,
-      studentClassroom
+      studentClassroom,
+      role
     };
     const check = checkUsernameUlt(studentUsername, editIndexS);
     if (!check) {

@@ -1,5 +1,13 @@
 {
   "name": "school-management",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://school-management.github.io/school-management"
+},
+
+
+{
+  "name": "school-management",
   "private": true,
   "version": "0.0.0",
   "type": "module",
