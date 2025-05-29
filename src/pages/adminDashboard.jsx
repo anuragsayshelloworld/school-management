@@ -198,10 +198,12 @@ export default function AdminDashboard({ setUser, user }) {
   };
 
   const handleDeleteS = (indexx) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
     const temp = JSON.parse(localStorage.getItem("student")) || [];
     const newtemp = temp.filter((_, index) => index !== indexx);
     localStorage.setItem("student", JSON.stringify(newtemp));
     setStudentData(newtemp);
+  }
   };
 
   const handleEditS = (indexx) => {
